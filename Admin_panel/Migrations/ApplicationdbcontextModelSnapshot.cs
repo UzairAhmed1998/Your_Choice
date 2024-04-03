@@ -202,7 +202,6 @@ namespace Admin_panel.Migrations
                         .HasColumnType("Varchar(max)");
 
                     b.Property<string>("p_img")
-                        .IsRequired()
                         .HasColumnType("Varchar(max)");
 
                     b.Property<double?>("p_mrp")
@@ -229,6 +228,37 @@ namespace Admin_panel.Migrations
                     b.HasIndex("p_supermart");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Admin_panel.Models.Data.Review", b =>
+                {
+                    b.Property<int>("pr_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("pr_id"), 1L, 1);
+
+                    b.Property<string>("pr_msg")
+                        .IsRequired()
+                        .HasColumnType("Varchar(max)");
+
+                    b.Property<int>("prd_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("r_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("user_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("pr_id");
+
+                    b.HasIndex("prd_id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("PReviews");
                 });
 
             modelBuilder.Entity("Admin_panel.Models.Data.SuperMarket", b =>
@@ -547,6 +577,25 @@ namespace Admin_panel.Migrations
                     b.Navigation("p_cat");
 
                     b.Navigation("p_spmart");
+                });
+
+            modelBuilder.Entity("Admin_panel.Models.Data.Review", b =>
+                {
+                    b.HasOne("Admin_panel.Models.Data.Product", "prod")
+                        .WithMany()
+                        .HasForeignKey("prd_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Admin_panel.Models.Data.ApplicationUser", "user")
+                        .WithMany()
+                        .HasForeignKey("user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("prod");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -494,10 +494,22 @@ namespace Admin_panel.Controllers
                 {
                     TempData["done"] = "Please check file extension";
                 }
+                return RedirectToAction("ProdList", "Home");
+            }
+            else {
+                list.p_name = pd.p_name;
+                list.p_description = pd.p_description;
+                list.p_mrp = pd.p_mrp;
+                list.p_price = pd.p_price;
+                list.p_category = pd.p_category;
+                list.p_supermart = pd.p_supermart;
+                list.p_stock = pd.p_stock;
+                _dbcontext.Products.Update(list);
+                await _dbcontext.SaveChangesAsync();
+                TempData["success"] = "Product is updated successfully";
+                return RedirectToAction("ProdList", "Home");
             }
 
-            return RedirectToAction("ProdList", "Home");
-            
         }
         public async Task<IActionResult> PDelete(int id)
         {

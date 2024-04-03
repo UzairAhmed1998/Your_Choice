@@ -27,18 +27,22 @@ namespace Admin_panel.Models.Data
         [ForeignKey("p_supermart")]
         public SuperMarket p_spmart { get; set; }
         [Column(TypeName ="Varchar(max)")]
-        public string p_img {  get; set; }
+        public string? p_img {  get; set; }
         [NotMapped]
-        public IFormFile p_image { get; set; }
+        public IFormFile? p_image { get; set; }
         [NotMapped]
         public IEnumerable<Category> categories { get; set; }
         [NotMapped]
         public IEnumerable<Product> products { get; set; }
         [NotMapped]
         public CartProduct p_cart { get; set; }
+     
+        [NotMapped]
+        public Review ProductReview { get; set; }
         [NotMapped]
         public Product p_product { get; set; }
-        
+
+      
 
 
 

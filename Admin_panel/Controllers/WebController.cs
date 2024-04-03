@@ -11,15 +11,15 @@ namespace Admin_panel.Controllers
     public class WebController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
-        
+
         private readonly Applicationdbcontext _dbcontext;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public WebController(Applicationdbcontext dbcontext, IWebHostEnvironment webHostEnvironment,SignInManager<IdentityUser> signInManager)
+        public WebController(Applicationdbcontext dbcontext, IWebHostEnvironment webHostEnvironment, SignInManager<IdentityUser> signInManager)
         {
             _signInManager = signInManager;
             _dbcontext = dbcontext;
             _webHostEnvironment = webHostEnvironment;
-           
+
         }
         public IActionResult Index()
         {
@@ -44,12 +44,12 @@ namespace Admin_panel.Controllers
             profile.last_name = user.last_name;
             profile.UserName = user.first_name;
             profile.PhoneNumber = user.PhoneNumber;
-            profile.City= user.City;
-            profile.Country= user.Country;
-            profile.Town= user.Town;
+            profile.City = user.City;
+            profile.Country = user.Country;
+            profile.Town = user.Town;
             TempData["msg2"] = "Profile Updated..!!";
 
-            
+
             _dbcontext.ApplicationUsers.Update(profile);
             await _dbcontext.SaveChangesAsync();
 
@@ -85,34 +85,36 @@ namespace Admin_panel.Controllers
             if (check != null)
             {
                 TempData["msg"] = "This Email is already exist.";
-                    return RedirectToAction("ChangeEmail", "Web");
+                return RedirectToAction("ChangeEmail", "Web");
             }
-            else {
+            else
+            {
                 profile.NormalizedUserName = user.new_email.ToUpper();
                 profile.Email = user.new_email;
                 profile.NormalizedEmail = user.new_email.ToUpper();
 
                 _dbcontext.ApplicationUsers.Update(profile);
                 var result = await _dbcontext.SaveChangesAsync();
-           
-              
-            TempData["msg"] = "Your Email is changed now.";
-            await _signInManager.SignOutAsync();
 
-          return LocalRedirect("/Identity/Account/Login2");
+
+                TempData["msg"] = "Your Email is changed now.";
+                await _signInManager.SignOutAsync();
+
+                return LocalRedirect("/Identity/Account/Login2");
             }
 
 
         }
         public async Task<IActionResult> Shop(int id)
         {
-            if (id == 0) { 
-            Product pr = new Product()
+            if (id == 0)
             {
-                products =await _dbcontext.Products.Include(x=>x.p_cat).Include(s=>s.p_spmart).ToListAsync(),
-                categories=await _dbcontext.Categories.ToListAsync(),
+                Product pr = new Product()
+                {
+                    products = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).ToListAsync(),
+                    categories = await _dbcontext.Categories.ToListAsync(),
 
-            };
+                };
                 foreach (var item in pr.categories)
                 {
                     item.p_count = _dbcontext.Products.Where(x => x.p_category == item.cat_id).Count();
@@ -123,43 +125,80 @@ namespace Admin_panel.Controllers
             {
                 Product pr = new Product()
                 {
-                    products = await _dbcontext.Products.Include(x => x.p_cat).Include(s=>s.p_spmart).Where(a => a.p_category == id).ToListAsync(),
+                    products = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).Where(a => a.p_category == id).ToListAsync(),
                     categories = await _dbcontext.Categories.ToListAsync(),
-                   
+
                 };
                 foreach (var item in pr.categories)
                 {
-                    item.p_count = _dbcontext.Products.Where(x=>x.p_category==item.cat_id).Count();
+                    item.p_count = _dbcontext.Products.Where(x => x.p_category == item.cat_id).Count();
                 }
                 return View(pr);
             }
-          
-            
-          
+
+
+
 
         }
-       
+        public Product product { get; set; }
+        public Review ProductReview { get; set; }
         public async Task<IActionResult> PDetail(int id)
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
             var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
-            if (claims == null) {
-                Product pr = new Product()
+            if (claims == null)
+            {
+                product = new Product()
                 {
                     p_product = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).FirstOrDefaultAsync(a => a.p_id == id),
-                    
+                    ProductReview = new()
                 };
-                
-                return View(pr);
-                }
-            else { 
-            Product pr = new Product() {
-                p_product = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).FirstOrDefaultAsync(a => a.p_id == id),
-               p_cart=await _dbcontext.CartProducts.Where(x=>x.User.Id==claims.Value).FirstOrDefaultAsync(s=>s.Productid.p_id==id)
-        };
-            return View(pr);
+                product.ProductReview.Rlist = await _dbcontext.PReviews.OrderByDescending(s => s.r_date).Include(x => x.user).Where(y => y.prd_id == id).ToListAsync();
+
+                return View(product);
+            }
+            else
+            {
+                product = new Product()
+                {
+                    p_product = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).FirstOrDefaultAsync(a => a.p_id == id),
+                    p_cart = await _dbcontext.CartProducts.Where(x => x.User.Id == claims.Value).FirstOrDefaultAsync(s => s.Productid.p_id == id),
+                    ProductReview = new()
+                };
+                product.ProductReview.Rlist = await _dbcontext.PReviews.OrderByDescending(s=>s.r_date).Include(x => x.user).Where(y => y.prd_id == id).ToListAsync();
+
+                return View(product);
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> PReview(Product pr, int id)
+        {
+            var claimidentity = (ClaimsIdentity)User.Identity;
+            var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claims == null)
+            {
+                TempData["msg"] = "Please Login to post a review.";
+                return LocalRedirect("~/Web/PDetail/" + id);
+            }
+            else
+            {
+                Review prw = new()
+                {
+                    pr_msg = pr.ProductReview.pr_msg,
+                    user_id = claims.Value,
+                    prd_id = id,
+                    r_date=DateTime.Now
+                };
 
+
+
+                await _dbcontext.PReviews.AddAsync(prw);
+                await _dbcontext.SaveChangesAsync();
+                TempData["msg2"] = "Thanks for your review :)";
+                return LocalRedirect("~/Web/PDetail/" + id);
+
+            }
+
+        }
     }
 }

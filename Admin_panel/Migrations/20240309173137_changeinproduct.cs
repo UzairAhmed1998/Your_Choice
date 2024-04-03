@@ -4,13 +4,13 @@
 
 namespace Admin_panel.Migrations
 {
-    public partial class updateorder : Migration
+    public partial class changeinproduct : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Note",
-                table: "Orders",
+                name: "p_img",
+                table: "Products",
                 type: "Varchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -20,8 +20,8 @@ namespace Admin_panel.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Note",
-                table: "Orders",
+                name: "p_img",
+                table: "Products",
                 type: "Varchar(max)",
                 nullable: false,
                 defaultValue: "",

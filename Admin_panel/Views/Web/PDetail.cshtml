@@ -1,4 +1,6 @@
-﻿@model Admin_panel.Models.Data.Product
+﻿
+@model Admin_panel.Models.Data.Product
+
 
 @{
     ViewData["Title"] = "Product Detail";
@@ -127,6 +129,13 @@
 
         </div>
     }
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>@TempData["msg"]</strong>
+
+        </div>
+    }
     <!-- Single Page Header End -->
     <!-- Single Product Start -->
     <div class="container-fluid py-5 mt-5">
@@ -250,27 +259,31 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                    @foreach (var item in Model.ProductReview.Rlist)
+                                    {
+                                        
+                                   
                                     <div class="d-flex">
-                                        <img src="~/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
-                                        <div class="">
-                                            <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
-                                            <div class="d-flex justify-content-between">
-                                                <h5>Jason Smith</h5>
-                                               @*  <div class="d-flex mb-3">
+                                         <img src="~/img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt=""> 
+                                         <div class="">
+                                             <p class="mb-2" style="font-size: 14px;">@item.r_date.ToLongDateString() @item.r_date.ToShortTimeString()</p> 
+                                             <div class="d-flex justify-content-between">
+                                                <h5>@item.user.first_name</h5> 
+                                             @*    <div class="d-flex mb-3">
                                                     <i class="fa fa-star text-secondary"></i>
                                                     <i class="fa fa-star text-secondary"></i>
                                                     <i class="fa fa-star text-secondary"></i>
                                                     <i class="fa fa-star text-secondary"></i>
                                                     <i class="fa fa-star"></i>
-                                                </div> *@
+                                                </div>  *@
                                             </div>
                                             <p>
-                                                The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic
-                                                words etc. Susp endisse ultricies nisi vel quam suscipit
-                                            </p>
+                                                @item.pr_msg
+                                            </p> 
                                         </div>
                                     </div>
-                                    <div class="d-flex">
+                                    } 
+                                @*     <div class="d-flex">
                                         <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
                                         <div class="">
                                             <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
@@ -289,7 +302,43 @@
                                                 words etc. Susp endisse ultricies nisi vel quam suscipit
                                             </p>
                                         </div>
-                                    </div>
+                                       
+                                    </div> *@
+                                    <form asp-action="PReview" asp-controller="Web" asp-route-id="@Model.p_product.p_id" method="post">
+                                        <h4 class="mb-5 fw-bold">Leave a Reply</h4>
+                                        <div class="row g-4" role="tabpanel">
+                                          @*   <div class="col-lg-6">
+                                                <div class="border-bottom rounded">
+                                                    <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
+                                                </div>
+                                            </div> *@
+                                           @*  <div class="col-lg-6">
+                                                <div class="border-bottom rounded">
+                                                    <input type="email" class="form-control border-0" placeholder="Your Email *">
+                                                </div>
+                                            </div> *@
+                                            <div class="col-lg-12">
+                                                <div class="border-bottom rounded my-4">
+                                                    <textarea asp-for="@Model.ProductReview.pr_msg" required class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="d-flex justify-content-between py-3 mb-5">
+                                                   @*  <div class="d-flex align-items-center">
+                                                        <p class="mb-0 me-3">Please rate:</p>
+                                                        <div class="d-flex align-items-center" style="font-size: 12px;">
+                                                            <i class="fa fa-star text-muted"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                    </div> *@
+                                                    <button type="submit" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="tab-pane" id="nav-vision" role="tabpanel">
                                     <p class="text-dark">
@@ -300,44 +349,13 @@
                                         Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
                                         Clita erat ipsum et lorem et sit
                                     </p>
+                                   
                                 </div>
+                               
                             </div>
+                           
                         </div>
-                        <form action="#">
-                            <h4 class="mb-5 fw-bold">Leave a Reply</h4>
-                            <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="border-bottom rounded">
-                                        <input type="text" class="form-control border-0 me-4" placeholder="Yur Name *">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="border-bottom rounded">
-                                        <input type="email" class="form-control border-0" placeholder="Your Email *">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="border-bottom rounded my-4">
-                                        <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="d-flex justify-content-between py-3 mb-5">
-                                        <div class="d-flex align-items-center">
-                                            <p class="mb-0 me-3">Please rate:</p>
-                                            <div class="d-flex align-items-center" style="font-size: 12px;">
-                                                <i class="fa fa-star text-muted"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                      
                     </div>
                 </div>
               @*   <div class="col-lg-4 col-xl-3">

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Admin_panel.Migrations
 {
     [DbContext(typeof(Applicationdbcontext))]
-    [Migration("20240131171920_addcartdb")]
-    partial class addcartdb
+    [Migration("20240308174700_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,124 @@ namespace Admin_panel.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Admin_panel.Models.Data.Order", b =>
+                {
+                    b.Property<int>("Order_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Order_id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("Varchar(max)");
+
+                    b.Property<string>("Carrier")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("Contact_No")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("Varchar(max)");
+
+                    b.Property<DateTime?>("Order_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Order_status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Order_total")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("Payment_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Payment_intentid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Paymentdue_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Pcode")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("Session_id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Shipping_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("Tracking_number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("first_name")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("last_name")
+                        .IsRequired()
+                        .HasColumnType("Varchar(50)");
+
+                    b.Property<string>("payment_status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("payment_type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("user_id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Order_id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Admin_panel.Models.Data.OrderDetail", b =>
+                {
+                    b.Property<int>("orderdetail_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("orderdetail_Id"), 1L, 1);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("order_id")
+                        .HasColumnType("int");
+
+                    b.Property<double>("price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("product_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("orderdetail_Id");
+
+                    b.HasIndex("order_id");
+
+                    b.HasIndex("product_id");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("Admin_panel.Models.Data.Product", b =>
                 {
                     b.Property<int>("p_id")
@@ -113,6 +231,37 @@ namespace Admin_panel.Migrations
                     b.HasIndex("p_supermart");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Admin_panel.Models.Data.Review", b =>
+                {
+                    b.Property<int>("pr_id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("pr_id"), 1L, 1);
+
+                    b.Property<string>("pr_msg")
+                        .IsRequired()
+                        .HasColumnType("Varchar(max)");
+
+                    b.Property<int>("prd_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("r_date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("user_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("pr_id");
+
+                    b.HasIndex("prd_id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("PReviews");
                 });
 
             modelBuilder.Entity("Admin_panel.Models.Data.SuperMarket", b =>
@@ -386,6 +535,34 @@ namespace Admin_panel.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Admin_panel.Models.Data.Order", b =>
+                {
+                    b.HasOne("Admin_panel.Models.Data.ApplicationUser", "app_user")
+                        .WithMany()
+                        .HasForeignKey("user_id");
+
+                    b.Navigation("app_user");
+                });
+
+            modelBuilder.Entity("Admin_panel.Models.Data.OrderDetail", b =>
+                {
+                    b.HasOne("Admin_panel.Models.Data.Order", "order")
+                        .WithMany()
+                        .HasForeignKey("order_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Admin_panel.Models.Data.Product", "product")
+                        .WithMany()
+                        .HasForeignKey("product_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("order");
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("Admin_panel.Models.Data.Product", b =>
                 {
                     b.HasOne("Admin_panel.Models.Data.Category", "p_cat")
@@ -403,6 +580,25 @@ namespace Admin_panel.Migrations
                     b.Navigation("p_cat");
 
                     b.Navigation("p_spmart");
+                });
+
+            modelBuilder.Entity("Admin_panel.Models.Data.Review", b =>
+                {
+                    b.HasOne("Admin_panel.Models.Data.Product", "prod")
+                        .WithMany()
+                        .HasForeignKey("prd_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Admin_panel.Models.Data.ApplicationUser", "user")
+                        .WithMany()
+                        .HasForeignKey("user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("prod");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
