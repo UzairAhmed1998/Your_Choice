@@ -200,5 +200,33 @@ namespace Admin_panel.Controllers
             }
 
         }
+        public async Task<IActionResult> Contact()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Contact2(Contact con)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(claims != null)
+            {
+                var user = await _dbcontext.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == claims.Value);
+                con.c_name = user.first_name;
+                con.c_email = user.Email;
+                await _dbcontext.AddAsync(con);
+                await _dbcontext.SaveChangesAsync();
+                TempData["msg2"] = "Thank You. Your Message has been sent to our team.";
+                return RedirectToAction("Contact", "Web");
+            }
+            else
+            {
+                await _dbcontext.AddAsync(con);
+                await _dbcontext.SaveChangesAsync();
+                TempData["msg2"] = "Thank You. Your Message has been sent to our team.";
+                return RedirectToAction("Contact", "Web");
+            }
+            
+        }
     }
 }

@@ -4,6 +4,7 @@ using Admin_panel.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Admin_panel.Migrations
 {
     [DbContext(typeof(Applicationdbcontext))]
-    partial class ApplicationdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240413063844_addcontact")]
+    partial class addcontact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,31 +69,6 @@ namespace Admin_panel.Migrations
                     b.HasKey("cat_id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Admin_panel.Models.Data.Contact", b =>
-                {
-                    b.Property<int>("c_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("c_id"), 1L, 1);
-
-                    b.Property<string>("c_email")
-                        .IsRequired()
-                        .HasColumnType("Varchar(50)");
-
-                    b.Property<string>("c_msg")
-                        .IsRequired()
-                        .HasColumnType("Varchar(max)");
-
-                    b.Property<string>("c_name")
-                        .IsRequired()
-                        .HasColumnType("Varchar(50)");
-
-                    b.HasKey("c_id");
-
-                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Admin_panel.Models.Data.Order", b =>

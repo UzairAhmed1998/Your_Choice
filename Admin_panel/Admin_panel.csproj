@@ -12,7 +12,7 @@
     <Content Remove="Views\Web\cart.cshtml" />
     <Content Remove="Views\Web\chackout.cshtml" />
     <Content Remove="Views\Web\contact - Copy.cshtml" />
-    <Content Remove="Views\Web\contact.cshtml" />
+    <Content Remove="Views\Web\contact2.cshtml" />
     <Content Remove="Views\Web\shop-detail.cshtml" />
     <Content Remove="Views\Web\shop2.cshtml" />
   </ItemGroup>
@@ -23,7 +23,7 @@
     <None Include="Views\Web\cart.cshtml" />
     <None Include="Views\Web\chackout.cshtml" />
     <None Include="Views\Web\contact - Copy.cshtml" />
-    <None Include="Views\Web\contact.cshtml" />
+    <None Include="Views\Web\contact2.cshtml" />
     <None Include="Views\Web\shop-detail.cshtml" />
     <None Include="Views\Web\shop2.cshtml" />
   </ItemGroup>
