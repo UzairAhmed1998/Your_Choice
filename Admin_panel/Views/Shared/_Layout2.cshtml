@@ -181,7 +181,7 @@
                     <div class="d-flex flex-column text-start footer-item">
                         <h4 class="text-light mb-3">Shop</h4>
                     @*     <a class="btn-link" href="">About Us</a> *@
-                        <a class="btn-link" href="">Contact Us</a>
+                        <a class="btn-link" asp-action="Contact" asp-controller="Web">Contact Us</a>
                       @*   <a class="btn-link" href="">Privacy Policy</a>
                         <a class="btn-link" href="">Terms & Condition</a>
                         <a class="btn-link" href="">Return Policy</a>
@@ -191,8 +191,15 @@
                  <div class="col-lg-3 col-md-6">
                     <div class="d-flex flex-column text-start footer-item">
                         <h4 class="text-light mb-3">Account</h4>
-                        <a class="btn-link" href="">My Account</a>
-                     @*    <a class="btn-link" href="">Shop details</a>
+                        @if(claims!=null){
+                            <a class="btn-link" asp-action="Profile" asp-controller="Web">My Account</a>
+                        }
+                        else
+                        {
+                            <a class="btn-link" asp-area="Identity" asp-page="/Account/Register2">Register</a>
+                            <a class="btn-link" asp-area="Identity" asp-page="/Account/Login2">Login</a>
+                        }
+                        @*    <a class="btn-link" href="">Shop details</a>
                         <a class="btn-link" href="">Shopping Cart</a>
                         <a class="btn-link" href="">Wishlist</a>
                         <a class="btn-link" href="">Order History</a>
