@@ -106,7 +106,8 @@ namespace Admin_panel.Controllers
 
 
         }
-        public async Task<IActionResult> Shop(int id, int page)
+        [HttpGet]
+        public async Task<IActionResult> Shop(int id, int page,string name)
         {
             
            
@@ -121,8 +122,8 @@ namespace Admin_panel.Controllers
             var result_per_page = 5;
            
            
-            var query = _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).AsNoTracking().OrderBy(s => s.p_name);
-            var query2 = _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).Where(a => a.p_category == id).AsNoTracking().OrderBy(s => s.p_name);
+            var query = _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).Where(s => s.p_name.Contains(name) || name == null).AsNoTracking().OrderBy(s => s.p_name);
+            var query2 = _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).Where(a => a.p_category == id).Where(s=>s.p_name.Contains(name) ||name==null).AsNoTracking().OrderBy(s => s.p_name);
             if (id == 0)
             {
                 ViewBag.total_pages1 = (int)Math.Ceiling(plist1 / (double)result_per_page);
