@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 
@@ -105,15 +106,34 @@ namespace Admin_panel.Controllers
 
 
         }
-        public async Task<IActionResult> Shop(int id)
+        public async Task<IActionResult> Shop(int id, int page)
         {
+            
+           
+            if (page == 0)
+            {
+                page = 1;
+                
+            }
+            ViewBag.pages = page;
+            var plist1 = _dbcontext.Products.Count();
+            var plist2 = _dbcontext.Products.Where(a => a.p_category == id).Count();
+            var result_per_page = 5;
+           
+           
+            var query = _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).AsNoTracking().OrderBy(s => s.p_name);
+            var query2 = _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).Where(a => a.p_category == id).AsNoTracking().OrderBy(s => s.p_name);
             if (id == 0)
             {
+                ViewBag.total_pages1 = (int)Math.Ceiling(plist1 / (double)result_per_page);
+                
                 Product pr = new Product()
                 {
-                    products = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).ToListAsync(),
+                    products = await PagingList.CreateAsync(query, result_per_page, page),
                     categories = await _dbcontext.Categories.ToListAsync(),
-
+                    p_category = id
+                    
+                
                 };
                 foreach (var item in pr.categories)
                 {
@@ -123,10 +143,14 @@ namespace Admin_panel.Controllers
             }
             else
             {
+                ViewBag.total_pages1 = (int)Math.Ceiling(plist2 / (double)result_per_page);
+
                 Product pr = new Product()
                 {
-                    products = await _dbcontext.Products.Include(x => x.p_cat).Include(s => s.p_spmart).Where(a => a.p_category == id).ToListAsync(),
+                    products = await PagingList.CreateAsync(query2, result_per_page, page),
                     categories = await _dbcontext.Categories.ToListAsync(),
+                    p_category = id
+
 
                 };
                 foreach (var item in pr.categories)

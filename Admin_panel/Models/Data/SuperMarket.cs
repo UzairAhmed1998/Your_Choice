@@ -8,7 +8,7 @@ namespace Admin_panel.Models.Data
         [Key]
         public int sp_id {  get; set; }
         [Required(ErrorMessage ="Enter Super Market Name")]
-        [Column(TypeName ="Varchar(50)")]
+        [Column(TypeName ="Varchar(max)")]
         public string sp_name { get; set;}
         [Required(ErrorMessage = "Enter Super Market Town")]
         [Column(TypeName = "Varchar(50)")]

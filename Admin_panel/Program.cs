@@ -3,11 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using ReflectionIT.Mvc.Paging;
 
 var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("ApplicationdbcontextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationdbcontextConnection' not found.");
 
 // Add services to the container.
+builder.Services.AddPaging();
 builder.Services.AddControllersWithViews();
 var provider = builder.Services.BuildServiceProvider();
 var config = provider.GetRequiredService<IConfiguration>();

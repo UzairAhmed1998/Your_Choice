@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ReflectionIT.Mvc.Paging;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Admin_panel.Models.Data
@@ -8,7 +9,7 @@ namespace Admin_panel.Models.Data
         [Key]
         public int p_id { get; set; }
         [Required(ErrorMessage ="Enter Product Name")]
-        [Column(TypeName ="Varchar(50)")]
+        [Column(TypeName ="Varchar(max)")]
         public string p_name { get; set;}
         [Column(TypeName ="Varchar(max)")]
         public string? p_description { get; set;}
@@ -33,7 +34,7 @@ namespace Admin_panel.Models.Data
         [NotMapped]
         public IEnumerable<Category> categories { get; set; }
         [NotMapped]
-        public IEnumerable<Product> products { get; set; }
+        public PagingList<Product> products { get; set; }
         [NotMapped]
         public CartProduct p_cart { get; set; }
      

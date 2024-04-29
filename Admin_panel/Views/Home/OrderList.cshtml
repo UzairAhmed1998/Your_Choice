@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Admin_panel.Models.Data.Order>
+
+@{
+    ViewData["Title"] = "OrderList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <style>
+        th{
+            font-size:16px;
+        }
+        td{
+            font-size: 14px;
+        }
+    </style>
+</head>
+<h3>Order List</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                Order date
+            </th>
+           
+            <th>
+               Order total
+            </th>
+            <th>
+               Order status
+            </th>
+            <th>
+                Payment status
+            </th>
+        
+        
+      
+            <th>
+                Payment Type
+            </th>
+            <th>
+                Name
+            </th>
+          
+         
+            <th>
+               City
+            </th>
+          
+          
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                    @item.Order_date.ToShortDateString()     @item.Order_date.ToShortTimeString()
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Order_total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order_status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.payment_status)
+            </td>
+        
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.payment_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.first_name)
+            </td>
+      
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+         
+        
+           
+          
+            <td>
+                @* <a asp-action="Edit" asp-route-id="@item.Order_id">Edit</a> | *@
+                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Order_id">Details</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Order_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

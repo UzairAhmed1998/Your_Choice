@@ -13,7 +13,7 @@ namespace Admin_panel.Models.Data
         [ValidateNever]
         public ApplicationUser app_user { get; set; }
        
-        public DateTime? Order_date { get; set; }
+        public DateTime Order_date { get; set; }
         public DateTime? Shipping_date { get; set; }
         public double? Order_total { get; set; }
         public string? Order_status { get; set; }

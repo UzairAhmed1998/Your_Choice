@@ -82,7 +82,7 @@ namespace Admin_panel.Controllers
             return View();
             
         }
-        public async  Task<IActionResult> CategoryList()
+        public async  Task<IActionResult> CategoryList(int id,int st)
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
             var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -92,8 +92,17 @@ namespace Admin_panel.Controllers
                 var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
                 if (role.Name == "Admin")
                 {
+
                     var list = await _dbcontext.Categories.ToListAsync();
-            return View(list);
+                  
+                    if(st != 0) {
+                        var list2 = await _dbcontext.Categories.FirstOrDefaultAsync(x => x.cat_id == id);
+                        list2.cat_status = st;
+                        
+                        _dbcontext.Categories.Update(list2);
+                    await _dbcontext.SaveChangesAsync();
+                    }
+                    return View(list);
                 }
                 else
                 {
@@ -555,9 +564,25 @@ namespace Admin_panel.Controllers
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
             var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
-            var profile = await _dbcontext.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == claims.Value);
+            if (claims != null)
+            {
+                var user = _dbcontext.UserRoles.FirstOrDefault(x => x.UserId == claims.Value);
+                var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+                if (role.Name == "Admin")
+                {
+                    var profile = await _dbcontext.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == claims.Value);
             
             return View(profile);
+                }
+                else
+                {
+                    return LocalRedirect("~/null");
+                }
+            }
+            else
+            {
+                return LocalRedirect("~/null");
+            }
         }
         [HttpPost]
         [ActionName("Profile")]
@@ -624,6 +649,29 @@ namespace Admin_panel.Controllers
             }
 
 
+        }
+        public async Task<IActionResult> OrderList()
+        {
+            var claimidentity = (ClaimsIdentity)User.Identity;
+            var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claims != null)
+            {
+                var user = _dbcontext.UserRoles.FirstOrDefault(x => x.UserId == claims.Value);
+                var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+                if (role.Name == "Admin")
+                {
+                    var list = await _dbcontext.Orders.ToListAsync();
+                    return View(list);
+                }
+                else
+                {
+                    return LocalRedirect("~/null");
+                }
+            }
+            else
+            {
+                return LocalRedirect("~/null");
+            }
         }
         public IActionResult Privacy()
         {

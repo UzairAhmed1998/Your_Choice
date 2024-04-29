@@ -4,6 +4,7 @@ using Admin_panel.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Admin_panel.Migrations
 {
     [DbContext(typeof(Applicationdbcontext))]
-    partial class ApplicationdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20240419035539_updateproductname")]
+    partial class updateproductname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace Admin_panel.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("Varchar(max)");
 
-                    b.Property<DateTime>("Order_date")
+                    b.Property<DateTime?>("Order_date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Order_status")

@@ -1,5 +1,7 @@
 ﻿@using Admin_panel.Models.Data;
 @model Admin_panel.Models.Data.Product
+@using ReflectionIT.Mvc.Paging;
+@addTagHelper *,ReflectionIT.Mvc.Paging
 
 
 
@@ -37,6 +39,11 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        #home:active{
+            color:green;
+        }
+    </style>
 </head>
 
 <body>
@@ -146,7 +153,7 @@
                         </div>
                         <div class="col-6"></div>
                         <div class="col-xl-3">
-                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                          @*   <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                 <label for="fruits">Default Sorting:</label>
                                 <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
                                     <option value="volvo">Nothing</option>
@@ -154,7 +161,7 @@
                                     <option value="opel">Organic</option>
                                     <option value="audi">Fantastic</option>
                                 </select>
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                     <div class="row g-4">
@@ -178,13 +185,13 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                              @*   <div class="col-lg-12">
                                     <div class="mb-3">
                                         <h4 class="mb-2">Price</h4>
                                         <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
                                         <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output>
                                     </div>
-                                </div>
+                                </div> *@
                              @*    <div class="col-lg-12">
                                     <div class="mb-3">
                                         <h4>Additional</h4>
@@ -273,16 +280,19 @@
                                         <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
                                     </div>
                                 </div> *@
-                                <div class="col-lg-12">
+                              @*   <div class="col-lg-12">
                                     <div class="position-relative">
                                         <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
                                         <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
                                             <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
                                         </div>
                                     </div>
-                                </div>
+                                </div> *@
                             </div>
                         </div>
+                       @*  <nav aria-label="Product Paging">
+                            @await this.Component.InvokeAsync("Pager",new{paginglist=this.Model.products})
+                        </nav> *@
                         <div class="col-lg-9">
                             <div class="row g-4 justify-content-center">
                                 @foreach (var item in Model.products)
@@ -295,12 +305,12 @@
                                         </div>
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">@item.p_cat.cat_name</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom" style="width:260px;height:250px;">
-                                            <h5>@item.p_name</h5>
+                                            <p style="font-size:14px; color:black; font-weight:bold;margin-bottom:10px;">@item.p_name</p>
                                           @*   <p>@item.p_description</p> *@
                                             <div class="d-flex justify-content-between flex-lg-wrap">
                                                     <p class="text-danger  fs-5 fw-bold mb-0"><span class="text-decoration-line-through">Rs. @item.p_mrp</span> <span class="text-dark fs-5 fw-bold" style="text-decoration:none;">Rs:@item.p_price </span></p> <br />
                                                     <p class="text-dark  fw-bold mb-0" style="font-size:12px;">Super Market: <span class="text-dark  fw-bold">@item.p_spmart.sp_name</span> </p> <br />
-                                                    <p class="text-dark  fw-bold mb-2" style="font-size:12px;">Town: <span class="text-dark  fw-bold">@item.p_spmart.sp_town</span> </p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <p class="text-dark  fw-bold mb-2" style="font-size:12px;">Town: <span class="text-dark  fw-bold">@item.p_spmart.sp_town</span> </p> 
                                                     <ul class="list-unstyled ">
                                                      
 
@@ -332,14 +342,24 @@
                                 
                                 <div class="col-12">
                                     <div class="pagination d-flex justify-content-center mt-5">
-                                        <a href="#" class="rounded">&laquo;</a>
-                                        <a href="#" class="active rounded">1</a>
-                                        <a href="#" class="rounded">2</a>
+                                        @if (ViewBag.pages == 1) { }
+                                     else{
+                                        <a asp-action="Shop" asp-route-id="@Model.p_category" asp-controller="Web" asp-route-page="1" class="rounded">First</a>
+                                        }
+                                        @for (var i = 1; i <= ViewBag.total_pages1; i++)
+                                        {
+                                        <a asp-action="Shop" asp-route-id="@Model.p_category" asp-route-page="@i" class="rounded">@i</a>
+                                        }
+                                     @*    <a href="#" class="rounded">2</a>
                                         <a href="#" class="rounded">3</a>
                                         <a href="#" class="rounded">4</a>
                                         <a href="#" class="rounded">5</a>
-                                        <a href="#" class="rounded">6</a>
-                                        <a href="#" class="rounded">&raquo;</a>
+                                        <a href="#" class="rounded">6</a> *@
+                                        @if (ViewBag.pages == ViewBag.total_pages1) { }
+                                     else{
+                                        <a asp-action="Shop" asp-route-id="@Model.p_category" asp-controller="Web" asp-route-page="@ViewBag.total_pages1" class="rounded">Last</a>
+                                     }
+                                        @*    <vc:pager paging-list="@Model.products" /> *@
                                     </div>
                                 </div>
                             </div>

@@ -46,10 +46,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.cat_name)
             </td>
+            @if(item.cat_status==1){
             <td>
-                @Html.DisplayFor(modelItem => item.cat_status)
-            </td>
-            <td>
+                    <a asp-route-id="@item.cat_id" asp-action="CategoryList" asp-controller="Home" asp-route-st="2" class="btn btn-primary mb-1">Active</a>
+              
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-route-id="@item.cat_id" asp-action="CategoryList" asp-controller="Home" asp-route-st="1" class="btn btn-danger mb-1">Deactive</a>
+
+                    </td>
+                }
+    <td>
                 <a class="btn btn-primary" asp-action="Cat_Edit" asp-route-id="@item.cat_id">Edit</a> |
               @*   <a asp-action="Details" asp-route-id="@item.cat_id">Details</a> | *@
                 <a class="btn btn-danger" asp-action="Cat_Delete" asp-route-id="@item.cat_id">Delete</a>

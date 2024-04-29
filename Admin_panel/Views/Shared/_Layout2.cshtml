@@ -18,7 +18,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Fruitables - Vegetable Website Template</title>
+    <title>Your Choice Mart - @ViewData["Title"]</title>
+    <link href="~/img/logoformart2.png" rel="icon">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -67,15 +68,15 @@
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a asp-action="Index" asp-controller="Web" class="nav-item nav-link active">Home</a>
+                        <a asp-action="Index" asp-controller="Web" class="nav-item nav-link" id="home">Home</a>
                         <div class="nav-item dropdown">
-                            <a asp-action="Shop" asp-controller="Web" asp-route-id="0" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Shop</a>
+                            <a asp-action="Shop" asp-controller="Web" asp-route-id="0" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="home">Shop</a>
                             <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                 @foreach (var item in cat)
                                 {
                                     
                               
-                                <a asp-action="Shop" asp-controller="Web" asp-route-id="@item.cat_id" class="dropdown-item">@item.cat_name</a>
+                                    <a asp-action="Shop" asp-controller="Web" asp-route-id="@item.cat_id" class="dropdown-item" id="home">@item.cat_name</a>
                                @*  <a href="chackout.cshtml" class="dropdown-item">Chackout</a>
                                 <a href="testimonial.cshtml" class="dropdown-item">Testimonial</a>
                                 <a href="404.cshtml" class="dropdown-item">404 Page</a> *@
@@ -92,7 +93,7 @@
                                 <a href="404.cshtml" class="dropdown-item">404 Page</a>
                             </div>
                         </div> *@
-                        <a asp-action="Contact"asp-controller="Web" class="nav-item nav-link">Contact</a>
+                        <a asp-action="Contact" asp-controller="Web" class="nav-item nav-link" id="home">Contact</a>
                     </div>
                     <div class="d-flex m-3 me-0">
                         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
