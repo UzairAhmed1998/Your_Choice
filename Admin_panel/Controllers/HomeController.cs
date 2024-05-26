@@ -673,6 +673,89 @@ namespace Admin_panel.Controllers
                 return LocalRedirect("~/null");
             }
         }
+        public async Task<IActionResult> ODetail(int id)
+        {
+            var claimidentity = (ClaimsIdentity)User.Identity;
+            var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claims != null)
+            {
+                var user = _dbcontext.UserRoles.FirstOrDefault(x => x.UserId == claims.Value);
+                var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+                if (role.Name == "Admin")
+                {
+                    var result = await _dbcontext.Orders.FirstOrDefaultAsync(x=>x.Order_id ==id);
+                    return View(result);
+                }
+                else
+                {
+                    return LocalRedirect("~/null");
+                }
+            }
+            else
+            {
+                return LocalRedirect("~/null");
+            }
+        }
+        public async Task<IActionResult> pstatus(string id, int orderid)
+        {
+           var result= await _dbcontext.Orders.FirstOrDefaultAsync(x => x.Order_id == orderid);
+            if (id == "Pending")
+            {
+                result.payment_status = StaticDetails.Payment_Status_Success;
+                 _dbcontext.Orders.Update(result);
+                await _dbcontext.SaveChangesAsync();
+                return LocalRedirect("~/Home/ODetail/" + orderid);
+            }
+            if (id == "Success")
+            {
+                result.payment_status = StaticDetails.Payment_Status_Cancelled;
+                _dbcontext.Orders.Update(result);
+                await _dbcontext.SaveChangesAsync();
+                return LocalRedirect("~/Home/ODetail/" + orderid);
+            }
+            if (id == "Cancelled")
+            {
+                result.payment_status = StaticDetails.Payment_Status_Pending;
+                _dbcontext.Orders.Update(result);
+                await _dbcontext.SaveChangesAsync();
+                return LocalRedirect("~/Home/ODetail/" + orderid);
+            }
+
+
+
+
+            return LocalRedirect("~/Home/ODetail/" + orderid);
+        }
+        public async Task<IActionResult> ostatus(string id, int orderid)
+        {
+            var result = await _dbcontext.Orders.FirstOrDefaultAsync(x => x.Order_id == orderid);
+            if (id == "Pending")
+            {
+                result.Order_status= StaticDetails.Order_Status_Success;
+                _dbcontext.Orders.Update(result);
+                await _dbcontext.SaveChangesAsync();
+                return LocalRedirect("~/Home/ODetail/" + orderid);
+            }
+            if (id == "Success")
+            {
+                result.Order_status = StaticDetails.Order_Status_Cancelled;
+                _dbcontext.Orders.Update(result);
+                await _dbcontext.SaveChangesAsync();
+                return LocalRedirect("~/Home/ODetail/" + orderid);
+            }
+            if (id == "Cancelled")
+            {
+                result.Order_status = StaticDetails.Order_Status_Pending;
+                _dbcontext.Orders.Update(result);
+                await _dbcontext.SaveChangesAsync();
+                return LocalRedirect("~/Home/ODetail/" + orderid);
+            }
+
+
+
+
+            return LocalRedirect("~/Home/ODetail/" + orderid);
+        }
         public IActionResult Privacy()
         {
             

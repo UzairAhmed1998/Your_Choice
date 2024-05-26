@@ -1,0 +1,164 @@
+﻿@model Admin_panel.Models.Data.Order
+
+@{
+    ViewData["Title"] = "ODetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div>
+    <h4>Order Info</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Order_id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.user_id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.user_id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.first_name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.first_name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.last_name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.last_name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Town)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Town)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pcode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pcode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Contact_No)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Contact_No)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        @if (Model.Note != null)
+        {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+     
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+        }
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Order_date)
+        </dd>
+      @*   <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Shipping_date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Shipping_date)
+        </dd> *@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_total)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Order_total)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Order_status)
+        </dt>
+        <dd class = "col-sm-10">
+            <a class="btn btn-primary" asp-action="ostatus" asp-controller="Home" asp-route-orderid="@Model.Order_id" asp-route-id="@Model.Order_status"> @Html.DisplayFor(model => model.Order_status)</a>
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.payment_status)
+        </dt>
+        <dd class = "col-sm-10">
+            <a class="btn btn-primary" asp-action="pstatus" asp-controller="Home" asp-route-orderid="@Model.Order_id" asp-route-id="@Model.payment_status"> @Html.DisplayFor(model => model.payment_status)</a>
+        </dd>
+     @*    <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tracking_number)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tracking_number)
+        </dd> *@
+      @*   <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Carrier)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Carrier)
+        </dd> *@
+      @*   <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment_date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Payment_date)
+        </dd> *@
+     @*    <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Paymentdue_date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Paymentdue_date)
+        </dd> *@
+        @if(Model.Session_id!=null){
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Session_id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Session_id)
+        </dd>
+        }
+        @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment_intentid)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Payment_intentid)
+        </dd> *@
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.payment_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.payment_type)
+        </dd>
+       
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Order_id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
