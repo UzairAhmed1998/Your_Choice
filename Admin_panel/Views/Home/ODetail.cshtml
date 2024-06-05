@@ -18,55 +18,55 @@
             @Html.DisplayFor(model => model.Order_id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.user_id)
+            User Id
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.user_id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.first_name)
+         First Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.first_name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.last_name)
+         Last Name
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.last_name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Town)
+          Town
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Town)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
+          City
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.City)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+        Address
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pcode)
+           Psotal Code
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Pcode)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contact_No)
+            Contact No
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Contact_No)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
+          Country
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Country)
@@ -74,7 +74,7 @@
         @if (Model.Note != null)
         {
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
+           Additional Note
         </dt>
      
         <dd class="col-sm-10">
@@ -82,7 +82,7 @@
         </dd>
         }
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Order_date)
+         Order Date
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Order_date)
@@ -94,19 +94,19 @@
             @Html.DisplayFor(model => model.Shipping_date)
         </dd> *@
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Order_total)
+         Order Total
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Order_total)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Order_status)
+           Order Status
         </dt>
         <dd class = "col-sm-10">
             <a class="btn btn-primary" asp-action="ostatus" asp-controller="Home" asp-route-orderid="@Model.Order_id" asp-route-id="@Model.Order_status"> @Html.DisplayFor(model => model.Order_status)</a>
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.payment_status)
+            Payment Status
         </dt>
         <dd class = "col-sm-10">
             <a class="btn btn-primary" asp-action="pstatus" asp-controller="Home" asp-route-orderid="@Model.Order_id" asp-route-id="@Model.payment_status"> @Html.DisplayFor(model => model.payment_status)</a>
@@ -137,7 +137,7 @@
         </dd> *@
         @if(Model.Session_id!=null){
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Session_id)
+           Session Id
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Session_id)
@@ -150,7 +150,7 @@
             @Html.DisplayFor(model => model.Payment_intentid)
         </dd> *@
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.payment_type)
+          Payment Type
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.payment_type)
@@ -159,6 +159,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Order_id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary" asp-action="OEdit" asp-controller="Home" asp-route-id="@Model?.Order_id">Edit</a> |
+    <a class="btn btn-primary" asp-action="OrderList" asp-controller="Home">Back to List</a>|   
+    <a class="btn btn-primary" asp-action="Orderdetail" asp-controller="Home" asp-route-id="@Model?.Order_id">Products Info</a>
 </div>

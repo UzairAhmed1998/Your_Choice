@@ -1,0 +1,87 @@
+﻿@model Admin_panel.Models.Data.Order
+
+@{
+    ViewData["Title"] = "OEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h4>Edit Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="OEdit2" method="post" asp-controller="Home">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Order_id" />
+           
+        @*  
+            <div class="form-group">
+                <label asp-for="Shipping_date" class="control-label"></label>
+                <input asp-for="Shipping_date" class="form-control" />
+                <span asp-validation-for="Shipping_date" class="text-danger"></span>
+            </div> *@
+         
+        
+          
+         
+          
+         @*    <div class="form-group">
+                <label asp-for="Payment_date" class="control-label"></label>
+                <input asp-for="Payment_date" class="form-control" />
+                <span asp-validation-for="Payment_date" class="text-danger"></span>
+            </div> *@
+         @*    <div class="form-group">
+                <label asp-for="Paymentdue_date" class="control-label"></label>
+                <input asp-for="Paymentdue_date" class="form-control" />
+                <span asp-validation-for="Paymentdue_date" class="text-danger"></span>
+            </div> *@
+        
+          
+        
+            <div class="form-group">
+               Town
+                <input asp-for="Town" class="form-control" />
+                <span asp-validation-for="Town" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              City
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               Address
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+             Postal Code
+                <input asp-for="Pcode" class="form-control" />
+                <span asp-validation-for="Pcode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Contact No
+                <input asp-for="Contact_No" class="form-control" />
+                <span asp-validation-for="Contact_No" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              Additional Note
+                <textarea asp-for="Note" class="form-control" ></textarea>
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-primary" asp-action="OrderList" asp-controller="Home">Back to List</a>
+</div>
+

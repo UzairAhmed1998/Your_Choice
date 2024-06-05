@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Admin_panel.Models.Data.OrderDetail>
+
+@{
+    ViewData["Title"] = "Orderdetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Products Info</h3>
+
+<p>
+    <a class="btn btn-primary" asp-action="ODetail" asp-controller="Home" asp-route-id="@ViewBag.oid">Back To Order Details</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+         @*    <th>
+                @Html.DisplayNameFor(model => model.order)
+            </th> *@
+            <th>
+                Product Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+              Price
+            </th>
+       @*      <th></th> *@
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+          @*   <td>
+                @Html.DisplayFor(modelItem => item.order.Address)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.product.p_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+         @*    <td>
+                <a asp-action="Edit" asp-route-id="@item.orderdetail_Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.orderdetail_Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.orderdetail_Id">Delete</a>
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>

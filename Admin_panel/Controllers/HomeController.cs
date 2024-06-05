@@ -1,6 +1,7 @@
 ﻿using Admin_panel.Models;
 using Admin_panel.Models.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -34,7 +35,9 @@ namespace Admin_panel.Controllers
                 if (role.Name == "Admin") { 
 
             ViewBag.pcount= _dbcontext.Products.Count();
-            ViewBag.ucount=_dbcontext.ApplicationUsers.Count();
+                    var userrole = _dbcontext.Roles.FirstOrDefault(x => x.Name == "Customer");
+            ViewBag.ucount=_dbcontext.UserRoles.Where(x=>x.RoleId== userrole.Id).Count();
+                    ViewBag.sales = _dbcontext.Orders.Sum(x=>x.Order_total).Value;
             return Task.FromResult<IActionResult>(View());
             }
             else
@@ -683,6 +686,7 @@ namespace Admin_panel.Controllers
                 var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
                 if (role.Name == "Admin")
                 {
+                  
                     var result = await _dbcontext.Orders.FirstOrDefaultAsync(x=>x.Order_id ==id);
                     return View(result);
                 }
@@ -756,6 +760,107 @@ namespace Admin_panel.Controllers
 
             return LocalRedirect("~/Home/ODetail/" + orderid);
         }
+        public async Task<IActionResult> ODelete(int id)
+        {
+            var data = await _dbcontext.Orders.FirstOrDefaultAsync(x=>x.Order_id == id);
+            _dbcontext.Orders.Remove(data);
+            await _dbcontext.SaveChangesAsync();
+            return RedirectToAction("OrderList", "Home");
+        }
+        public async Task<IActionResult> OEdit(int id)
+        {
+            var claimidentity = (ClaimsIdentity)User.Identity;
+            var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claims != null)
+            {
+                var user = _dbcontext.UserRoles.FirstOrDefault(x => x.UserId == claims.Value);
+                var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+                if (role.Name == "Admin")
+                {
+                    var result = await _dbcontext.Orders.FirstOrDefaultAsync(x => x.Order_id == id);
+                    return View(result);
+                }
+                else
+                {
+                    return LocalRedirect("~/null");
+                }
+            }
+            else
+            {
+                return LocalRedirect("~/null");
+            }
+        }
+        public async Task<IActionResult> OEdit2(Order order)
+        {
+            var data = await _dbcontext.Orders.FirstOrDefaultAsync(x => x.Order_id == order.Order_id);
+            data.Address = order.Address;
+            data.City=order.City;
+            data.Contact_No = order.Contact_No;
+            data.Country = order.Country;
+            data.Note = order.Note;
+            data.Pcode = order.Pcode;
+            data.Town = order.Town;
+            _dbcontext.Orders.Update(data);
+            await _dbcontext.SaveChangesAsync();
+             return LocalRedirect("~/Home/ODetail/" + order.Order_id);
+        }
+        public async Task<IActionResult> Orderdetail(int id)
+        {
+          
+            var claimidentity = (ClaimsIdentity)User.Identity;
+            var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claims != null)
+            {
+                var user = _dbcontext.UserRoles.FirstOrDefault(x => x.UserId == claims.Value);
+                var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+                if (role.Name == "Admin")
+                {
+                    ViewBag.oid = id;
+                    var list = await _dbcontext.OrderDetails.Include(a=>a.product).Where(x => x.order_id == id).ToListAsync();
+                    return View(list);
+                }
+                else
+                {
+                    return LocalRedirect("~/null");
+                }
+            }
+            else
+            {
+                return LocalRedirect("~/null");
+            }
+        }
+        public async Task<IActionResult> CustomerMessages()
+        {
+            var claimidentity = (ClaimsIdentity)User.Identity;
+            var claims = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claims != null)
+            {
+                var user = _dbcontext.UserRoles.FirstOrDefault(x => x.UserId == claims.Value);
+                var role = _dbcontext.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+                if (role.Name == "Admin")
+                {
+                    var list = await _dbcontext.Contacts.ToListAsync();
+                    return View(list);
+                }
+                else
+                {
+                    return LocalRedirect("~/null");
+                }
+            }
+            else
+            {
+                return LocalRedirect("~/null");
+            }
+        }
+        public async Task<IActionResult> MDelete(int id)
+        {
+            var data = await _dbcontext.Contacts.FirstOrDefaultAsync(x=>x.c_id==id);
+            _dbcontext.Contacts.Remove(data);
+            await _dbcontext.SaveChangesAsync();
+            return RedirectToAction("CustomerMessages", "Home");
+        }
+
+
         public IActionResult Privacy()
         {
             

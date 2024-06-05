@@ -22,7 +22,7 @@
         <tr>
             
             <th>
-                Order date
+                Order Date/Time
             </th>
            
             <th>
@@ -50,7 +50,7 @@
             </th>
           
           
-            <th>Action</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -90,7 +90,7 @@
             <td>
                 @* <a asp-action="Edit" asp-route-id="@item.Order_id">Edit</a> | *@
                 <a class="btn btn-primary" asp-action="ODetail" asp-controller="Home" asp-route-id="@item.Order_id">Details</a> |
-                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Home" asp-route-id="@item.Order_id">Delete</a>
+                    <a class="btn btn-danger" asp-action="ODelete" asp-controller="Home" asp-route-id="@item.Order_id">Delete</a>
             </td>
         </tr>
 }
